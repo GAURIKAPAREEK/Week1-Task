@@ -1,0 +1,26 @@
+                                                                   Detailed Summary Report
+
+Objective:-
+
+The objective of this week task is to learn Python basics and perform basic data exploration and cleaning using the Pandas library. The task involves -
+•	Loading a CSV dataset
+•	Exploring the structure
+•	Handling missing values
+•	Performing filtering and selection operations
+•	Removing duplicate records
+•	Creating derived columns
+•	Saving the cleaned dataset
+
+Steps Performed:-
+
+•	Loaded the CSV dataset into a Pandas DataFrame using pd.read_csv().
+•	Explored the dataset using head(), tail(), shape, columns, and dtypes.
+•	Identified missing values using isnull().sum() and handled them using fillna() or dropna().
+•	Performed basic operations such as filtering rows and selecting columns.
+•	Removed duplicate rows using drop_duplicates().
+•	Created a derived column such as total_amount = initial_price *rating.
+•	Saved the cleaned dataset into a new CSV file using to_csv().
+
+Conclusion:-
+
+This task helped in understanding the basics of Python and Pandas for data analysis and preprocessing. 
