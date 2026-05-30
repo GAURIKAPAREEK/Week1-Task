@@ -1,0 +1,34 @@
+# WEEK 2 Task  SQL Sales Data Analysis 
+
+# Overview
+This demonstrates SQL-based sales/product data analysis.
+
+The dataset (`Sample_Superstore.csv`) was loaded into database and analyzed using SQL queries for filtering, aggregation, sorting, validation, and business insights.
+
+# Objectives
+
+1. Load dataset into SQL database
+2. Explore table schema and sample data
+3. Apply SQL WHERE filters
+4. Perform aggregations using GROUP BY
+5. Sort and limit results
+6. Solve business use cases
+7. Validate data quality
+
+
+# Features Implemented
+
+## Data Loading
+- CSV dataset loaded in database
+
+## SQL Analysis
+- Schema exploration
+- Sample data viewing
+- Filtering products by sales,category,dates
+- Aggregation queries
+- Sorting and ranking
+- Duplicate checks
+- NULL value validation
+- Quality Check
+
+
