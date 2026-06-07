@@ -2,10 +2,10 @@ Objective-
 Analyze Superstore sales data using SQL concepts such as Subqueries, Common Table Expressions (CTEs), and Window Functions to answer business-related questions and generate meaningful insights.
 
 Key Findings-
-•	Superstore Dataset
+•	Sample_Superstore Dataset
 •	Table: superstore_raw
-• SQL SCRIPT+OUTPUT : week3.sqlscript.ipynb
-• Brief Insights, Detailed Sumamary : Week3 Summary.pdf
+• SQL SCRIPT+OUTPUT : weeksqlscript.ipynb
+• Brief Insights, Detailed Sumamary : Week3 Summary File.pdf
 
 
 Tasks Performed
