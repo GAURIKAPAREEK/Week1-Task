@@ -9,6 +9,8 @@ This repository contains all the assignments and projects completed during my in
 | Week 1 | Python & Pandas Basics |
 | Week 2 | SQL Basics             |
 | Week 3 | Advanced SQL           |
+| Week 4 | Microsoft Azure        |
+
 
 ## Repository Structure
 
