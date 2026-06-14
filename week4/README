@@ -1,15 +1,6 @@
-Title-Azure Storage Account and Azure Data Factory (ADF) End-to-End Data Pipeline
-
-Objective-
-To understand Azure cloud concepts and build an end-to-end data pipeline using Azure Storage Account and Azure Data Factory (ADF).
-
 Documentation- (Screenshots + Brief Sumamry of Week Task 4)
-The PDF which I had uploaded serves as complete supporting documentation for the successful implementation of the Azure Storage Account and Azure Data Factory end-to-end data pipeline.
+The PDF serves as complete supporting documentation for the successful implementation of the Azure Storage Account and Azure Data Factory end-to-end data pipeline.
 
-Deliverables-
-
-1. Resource Group Setup
-2. Storage Account Setup
 3. Blob container creation
 4. Upload CSV File
 5. Azure Data Factory Setup
