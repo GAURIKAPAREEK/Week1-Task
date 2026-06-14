@@ -1,6 +1,12 @@
 Documentation- (Screenshots + Brief Sumamry of Week Task 4)
 The PDF serves as complete supporting documentation for the successful implementation of the Azure Storage Account and Azure Data Factory end-to-end data pipeline.
 
+Objective-
+To understand Azure cloud concepts and build an end-to-end data pipeline using Azure Storage Account and Azure Data Factory (ADF).
+
+Deliverables-
+1. Resource Group Setup  
+2. Storage Account Configuration  
 3. Blob container creation
 4. Upload CSV File
 5. Azure Data Factory Setup
