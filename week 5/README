@@ -1,0 +1,78 @@
+# Apache Spark Data Processing Assignment
+
+#Overview
+
+This focuses on using Apache Spark DataFrames to perform data cleaning, transformation, filtering, and analysis on a CSV dataset. The objective was to understand Spark fundamentals and build a simple data processing pipeline.
+
+## Tasks Performed
+
+1.Data Loading
+2.Data Cleaning
+3.Data Filtering
+Applied filters based on:
+
+* Age
+* Product Category
+* Region
+
+4.  Data Transformation
+
+* Converted `raw_timestamp` to `TimestampType`.
+* Renamed the timestamp column to `event_time`.
+* Created a new column `age_group` based on user age.
+
+5. Aggregation
+
+Performed:
+
+* Count
+* Sum
+* Average
+* Minimum
+* Maximum
+
+6. GroupBy Analysis
+
+Generated summary statistics using:
+
+* Product Category
+* Region
+* Age Group
+
+7. Data Processing Pipeline
+
+The final pipeline used for generating the updated dataset:
+
+1. Load Dataset
+2. Remove Duplicate Records
+3. Handle Missing Values
+4. Apply Transformations
+
+   * Timestamp Conversion
+   * Column Renaming
+   * Age Group Creation
+5. Save Updated Dataset
+
+## Observations
+
+* Filtering operations were used only for analysis and are not reflected in the final dataset.
+* Aggregation functions generate summary statistics and do not modify the original records.
+* GroupBy operations create analytical summary tables and do not alter the dataset.
+* Only cleaning and transformation operations are included in the final output file.
+
+Output
+
+Generated an updated dataset: results.csv
+containing:
+
+* Duplicate records removed
+* Missing status values filled with `"Unknown"`
+* `event_time` column added
+* `age_group` column added
+
+## Technologies Used
+
+* Apache Spark (PySpark)
+* Python
+* Jupyter Notebook
+* Pandas
