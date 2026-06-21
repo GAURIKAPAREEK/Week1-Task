@@ -1,10 +1,24 @@
 # Apache Spark Data Processing Assignment
 
-#Overview
+Project Structure
+week 5
+│
+├── data/
+│   └── data.csv
+│
+├── notebook/
+│   └── spark_basics.ipynb
+│
+├── output/
+│   └── results.csv
+│
+└── README.md
+
+Overview
 
 This focuses on using Apache Spark DataFrames to perform data cleaning, transformation, filtering, and analysis on a CSV dataset. The objective was to understand Spark fundamentals and build a simple data processing pipeline.
 
-## Tasks Performed
+Tasks Performed
 
 1.Data Loading
 2.Data Cleaning
@@ -53,7 +67,7 @@ The final pipeline used for generating the updated dataset:
    * Age Group Creation
 5. Save Updated Dataset
 
-## Observations
+Observations
 
 * Filtering operations were used only for analysis and are not reflected in the final dataset.
 * Aggregation functions generate summary statistics and do not modify the original records.
@@ -70,7 +84,7 @@ containing:
 * `event_time` column added
 * `age_group` column added
 
-## Technologies Used
+Technologies Used
 
 * Apache Spark (PySpark)
 * Python
