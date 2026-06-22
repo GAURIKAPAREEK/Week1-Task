@@ -74,7 +74,7 @@ Observations
 * GroupBy operations create analytical summary tables and do not alter the dataset.
 * Only cleaning and transformation operations are included in the final output file.
 
-Output
+*****Output*****
 
 Generated an updated dataset: results.csv
 containing:
