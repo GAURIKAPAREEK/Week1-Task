@@ -1,0 +1,46 @@
+# Week 6 - PySpark Data Processing
+
+This repository contains my Week 6 PySpark practical implementation. It demonstrates how to read, transform, filter, and save data using Apache Spark DataFrames.
+
+## Topics Covered
+
+- Reading CSV and Parquet files
+- DataFrame operations
+- Selecting and filtering data
+- Renaming columns
+- Data type conversion
+- Creating new columns
+- Handling null values
+- Aggregations (GroupBy)
+- Predicate Pushdown
+- Building ETL/Data Pipelines
+- Saving data as CSV and Parquet
+
+## Technologies Used
+
+- Python
+- PySpark
+- Apache Spark
+- Jupyter Notebook
+
+##  Workflow
+
+Read Data
+   ↓
+Transform Data
+   ↓
+Filter Records
+   ↓
+Handle Null Values
+   ↓
+Aggregate Data
+   ↓
+Write Output (CSV/Parquet)
+
+## Learning Outcomes
+
+- Learned Spark DataFrame operations
+- Built an end-to-end ETL pipeline
+- Worked with CSV and Parquet formats
+- Performed data cleaning and transformations
+- Saved processed data efficiently
