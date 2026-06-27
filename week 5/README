@@ -4,13 +4,13 @@ Project Structure
 week 5
 │
 ├── data/
-│   └── data.csv
+│   └── data.csv (source csv file)
 │
 ├── notebook/
-│   └── spark_basics.ipynb
+│   └── spark_basics.ipynb 
 │
 ├── output/
-│   └── results.csv
+│   └── results.csv (Final Results)
 │
 └── README.md
 
