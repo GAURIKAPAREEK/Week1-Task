@@ -10,7 +10,8 @@ This repository contains all the assignments and projects completed during my in
 | Week 2 | SQL Basics             |
 | Week 3 | Advanced SQL           |
 | Week 4 | Microsoft Azure        |
-| Week 5 | Data Cleaning        |
+| Week 5 | Data Cleaning          |
+| Week 6 | Spark Intro            |
 
 
 
