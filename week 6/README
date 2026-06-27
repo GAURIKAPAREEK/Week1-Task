@@ -1,4 +1,4 @@
-# Week 6 - PySpark Data Processing
+# Week 6 - Spark Intro
 
 This repository contains my Week 6 PySpark practical implementation. It demonstrates how to read, transform, filter, and save data using Apache Spark DataFrames.
 
