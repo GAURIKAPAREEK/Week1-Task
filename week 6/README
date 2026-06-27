@@ -2,6 +2,18 @@
 
 This repository contains my Week 6 PySpark practical implementation. It demonstrates how to read, transform, filter, and save data using Apache Spark DataFrames.
 
+##  Repository Structure
+
+Week6-
+
+├── data folder containing source.txt file that is used to create csv file further
+├── Brief Summary of Week 6.pdf
+├── week6.ipynb(Main Notebook File)
+├── output_pipeline.csv (pipeline output of csv)
+├── product.parquet  (source parquet files)
+├── parquet_output.parquet (pipeline output of parquet)
+└── README.md (Contains basic details of whole Execution)
+
 ## Topics Covered
 
 - Reading CSV and Parquet files
