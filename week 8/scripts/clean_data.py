@@ -175,12 +175,12 @@ def run_cleaning_pipeline():
     issues_report["duplicate_records_removed"]["order_items"] = initial_items_count - len(item_df)
     
     # Validate order item values (e.g. quantity = 0, discount_percent > 100)
-    # 1. discount_percent > 100 or < 0
+    # discount_percent > 100 or < 0
     invalid_discount_mask = (item_df["discount_percent"] > 100.0) | (item_df["discount_percent"] < 0.0)
     issues_report["invalid_discount_percent_removed"] = int(invalid_discount_mask.sum())
     item_df = item_df[~invalid_discount_mask]
     
-    # 2. quantity = 0
+    #  quantity = 0
     zero_qty_mask = item_df["quantity"] == 0
     issues_report["zero_quantity_items_removed"] = int(zero_qty_mask.sum())
     item_df = item_df[~zero_qty_mask]
