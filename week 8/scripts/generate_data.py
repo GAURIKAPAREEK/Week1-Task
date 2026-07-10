@@ -29,7 +29,7 @@ CATEGORIES = {
     "Books": ["Fiction", "Non-Fiction", "Sci-Fi", "Biography", "Mystery", "History"]
 }
 
-# 1. Generate Customers
+# Generate Customers
 customers = []
 customer_ids = [f"CUST{i:05d}" for i in range(1, NUM_CUSTOMERS + 1)]
 
@@ -72,7 +72,7 @@ with open(customers_file, "w", newline="", encoding="utf-8") as f:
     writer.writerows(customers)
 
 
-# 2. Generate Products
+# Generate Products
 products = []
 product_ids = [f"PROD{i:05d}" for i in range(1, NUM_PRODUCTS + 1)]
 
@@ -111,7 +111,7 @@ with open(products_file, "w", newline="", encoding="utf-8") as f:
     writer.writerows(products)
 
 
-# 3. Generate Orders
+# Generate Orders
 orders = []
 order_ids = [f"ORD{i:05d}" for i in range(1, NUM_ORDERS + 1)]
 
@@ -166,7 +166,7 @@ with open(orders_file, "w", newline="", encoding="utf-8") as f:
     writer.writerows(orders)
 
 
-# 4. Generate Order Items
+#  Generate Order Items
 order_items = []
 item_counter = 1
 
