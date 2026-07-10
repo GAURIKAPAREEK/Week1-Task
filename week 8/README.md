@@ -56,6 +56,7 @@ ecommerce-analytics-system/
 │
 ├── ecommerce.db
 └── README.md
+└── Report.pdf ( Summary + Screenshots)
 ```
 
 ---
