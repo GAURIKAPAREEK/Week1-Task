@@ -16,7 +16,7 @@ def run_test():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     
-    # Enable foreign keys
+    
     cursor.execute("PRAGMA foreign_keys = ON;")
     
     for sql_file in SQL_FILES:
@@ -27,24 +27,24 @@ def run_test():
         with open(sql_file, "r", encoding="utf-8") as f:
             content = f.read()
             
-        # Split statements by semicolon
-        # Note: We must be careful because some comments or code may have semicolons, but standard split on ';' works well if we clean statements
+       
+       
         statements = content.split(";")
         
         query_idx = 1
         for stmt in statements:
             stmt_clean = stmt.strip()
-            # Skip empty statements and statements that are purely comments
+
             if not stmt_clean or stmt_clean.startswith("--") and len(stmt_clean.split("\n")) <= 1:
                 continue
                 
-            # If the statement is just comments, let's skip it
+            
             lines = [l.strip() for l in stmt_clean.split("\n")]
             non_comment_lines = [l for l in lines if l and not l.startswith("--")]
             if not non_comment_lines:
                 continue
                 
-            # Try to print the leading comment of the statement to identify it
+           
             comment_header = ""
             for line in lines:
                 if line.startswith("--"):
