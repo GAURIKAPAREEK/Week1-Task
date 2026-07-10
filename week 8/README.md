@@ -213,23 +213,46 @@ The project includes a command-line reporting tool that reads data directly from
 python scripts/report_cli.py
 ```
 
-### Weekly Report
+### Period Summary Reports (PDF requirements)
 
-```bash
-python scripts/report_cli.py --report weekly
-```
+* **Weekly Report**:
+  ```bash
+  python scripts/report_cli.py --report weekly
+  ```
+* **Daily Report**:
+  ```bash
+  python scripts/report_cli.py --report daily
+  ```
+* **Custom Date Range**:
+  ```bash
+  python scripts/report_cli.py --report daily --start-date 2026-06-01 --end-date 2026-06-05
+  ```
 
-### Daily Report
+### Analytical Reports (Text requirements)
 
-```bash
-python scripts/report_cli.py --report daily
-```
+* **Revenue Analytics Report**:
+  (Shows revenue by product category, and customer-wise, category-wise monthly revenue breakdown)
+  ```bash
+  python scripts/report_cli.py --report revenue
+  ```
 
-### Custom Date Range
+* **Top Customers & Spend Rankings**:
+  (Shows top customers by spending, and ranks all customers by lifetime value using DENSE_RANK)
+  ```bash
+  python scripts/report_cli.py --report top_customers
+  ```
 
-```bash
-python scripts/report_cli.py --report daily --start-date 2026-06-01 --end-date 2026-06-05
-```
+* **Cohort Retention Analysis**:
+  (Shows monthly retention rates grouped by both registration month and first purchase month cohorts)
+  ```bash
+  python scripts/report_cli.py --report retention
+  ```
+
+* **Customer Segmentation & RFM**:
+  (Shows Average Order Value (AOV) by frequency segment, and outputs full Recency, Frequency, Monetary summary segments)
+  ```bash
+  python scripts/report_cli.py --report segmentation
+  ```
 
 ---
 
@@ -237,11 +260,12 @@ python scripts/report_cli.py --report daily --start-date 2026-06-01 --end-date 2
 
 The CLI tool displays:
 
-* Total Orders
-* Revenue
-* Unique Customers
-* Top Products
+* Total Orders, Revenue, and Unique Customers (with period-over-period % change)
+* Top Products by Quantity and Revenue
 * Daily / Weekly / Monthly Breakdown
+* Customer Spend & LTV Rankings
+* Registration vs First Purchase Cohort Retention Tables
+* RFM Segments and AOV by segments
 
 ---
 
