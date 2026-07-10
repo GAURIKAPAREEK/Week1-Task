@@ -7,7 +7,7 @@ SCHEMA_SQL = os.path.join("sql", "schema.sql")
 CLEAN_DIR = os.path.join("data", "cleaned")
 
 def setup_database():
-    # 1. Connect to SQLite (creates database file if it doesn't exist)
+    # 1. Connect to SQLite 
     print(f"Connecting to database at '{DB_PATH}'...")
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
@@ -20,7 +20,7 @@ def setup_database():
     with open(SCHEMA_SQL, "r", encoding="utf-8") as f:
         schema_query = f.read()
     
-    # executescript handles multiple SQL statements separated by semicolons
+    # handles multiple SQL statements 
     cursor.executescript(schema_query)
     conn.commit()
     print("Schema initialized successfully.")
