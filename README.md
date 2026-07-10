@@ -12,7 +12,8 @@ This repository contains all the assignments and projects completed during my in
 | Week 4 | Microsoft Azure        |
 | Week 5 | Data Cleaning          |
 | Week 6 | Spark Intro            |
-| Week 7 | Databricks            |
+| Week 7 | Databricks             |
+| Week 8 | Mini - Intern Project  |
 
 
 
