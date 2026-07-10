@@ -1,11 +1,11 @@
 import os
 import pandas as pd
-import numpy as np
 from datetime import datetime
 
 RAW_DIR = os.path.join("data", "raw")
 CLEAN_DIR = os.path.join("data", "cleaned")
 os.makedirs(CLEAN_DIR, exist_ok=True)
+REPORT_PATH = os.path.join(CLEAN_DIR, "cleaning_report.txt")
 
 
 CUSTOMERS_RAW = os.path.join(RAW_DIR, "customers.csv")
@@ -64,7 +64,7 @@ def clean_orders(orders_df):
 
     original_dates = orders_df["order_date"].copy()
     parsed_dates = orders_df["order_date"].apply(parse_order_date)
-    
+    orders_df["order_date"] = parsed_dates
     
     wrong_format_count = 0
     for orig, parsed in zip(original_dates, parsed_dates):
@@ -74,7 +74,7 @@ def clean_orders(orders_df):
             if len(orig_str) == 10 and orig_str[2] == '-' and orig_str[5] == '-':
                 wrong_format_count += 1
                 
-    issues_report["invalid_dates_fixed"] =j"])
+    issues_report["invalid_dates_fixed"] = int(wrong_format_count)
     
 
     reference_date = datetime(2026, 7, 9, 23, 59, 59)
