@@ -6,9 +6,6 @@ from datetime import datetime, timedelta
 DB_PATH = "ecommerce.db"
 
 def get_latest_order_date(cursor):
-    """
-    Finds the latest order date in the database to use as default reference.
-    """
     cursor.execute("SELECT MAX(order_date) FROM orders")
     res = cursor.fetchone()[0]
     if res:
@@ -23,18 +20,12 @@ def parse_date(date_str):
         raise argparse.ArgumentTypeError(f"Invalid date format: '{date_str}'. Must be YYYY-MM-DD.")
 
 def calculate_previous_period(start_dt, end_dt):
-    """
-    Given a start and end date, returns the start and end dates of the preceding period of equal length.
-    """
     delta = (end_dt - start_dt).days + 1
     prev_end_dt = start_dt - timedelta(days=1)
     prev_start_dt = start_dt - timedelta(days=delta)
     return prev_start_dt, prev_end_dt
 
 def get_period_stats(cursor, start_dt, end_dt):
-    """
-    Fetches total orders, net revenue, and unique customers for a date range.
-    """
     start_str = start_dt.strftime("%Y-%m-%d") + " 00:00:00"
     end_str = end_dt.strftime("%Y-%m-%d") + " 23:59:59"
     
@@ -66,9 +57,6 @@ def get_period_stats(cursor, start_dt, end_dt):
     return total_orders, round(revenue, 2), unique_customers
 
 def get_top_products(cursor, start_dt, end_dt, limit=3):
-    """
-    Fetches top products by revenue for a date range.
-    """
     start_str = start_dt.strftime("%Y-%m-%d") + " 00:00:00"
     end_str = end_dt.strftime("%Y-%m-%d") + " 23:59:59"
     
@@ -89,9 +77,6 @@ def get_top_products(cursor, start_dt, end_dt, limit=3):
     return cursor.fetchall()
 
 def get_breakdown(cursor, report_type, start_dt, end_dt):
-    """
-    Generates report breakdown: daily, weekly, or monthly.
-    """
     start_str = start_dt.strftime("%Y-%m-%d") + " 00:00:00"
     end_str = end_dt.strftime("%Y-%m-%d") + " 23:59:59"
     
@@ -121,9 +106,6 @@ def get_breakdown(cursor, report_type, start_dt, end_dt):
     return cursor.fetchall()
 
 def print_ascii_table(headers, rows):
-    """
-    Helper function to print rows as a text table.
-    """
     if not rows:
         print("No data available.")
         return
@@ -163,7 +145,7 @@ def generate_report(report_type, start_dt, end_dt):
     # Calculate previous period dates
     prev_start_dt, prev_end_dt = calculate_previous_period(start_dt, end_dt)
     
-    # 1. Fetch statistics
+    #  Fetch statistics
     curr_orders, curr_rev, curr_cust = get_period_stats(cursor, start_dt, end_dt)
     prev_orders, prev_rev, prev_cust = get_period_stats(cursor, prev_start_dt, prev_end_dt)
     
@@ -179,10 +161,10 @@ def generate_report(report_type, start_dt, end_dt):
     rev_change = pct_change(curr_rev, prev_rev)
     cust_change = pct_change(curr_cust, prev_cust)
     
-    # 2. Fetch top products
+    #  Fetch top products
     top_products = get_top_products(cursor, start_dt, end_dt)
     
-    # 3. Fetch breakdown
+    #  Fetch breakdown
     breakdown_data = get_breakdown(cursor, report_type, start_dt, end_dt)
     
     # Print report
