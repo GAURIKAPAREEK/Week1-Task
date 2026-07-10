@@ -38,7 +38,7 @@ ORDER BY order_month DESC;
 
 -- 4. Find customers who placed orders but never had any item delivered
 
-    c.customer_id,
+   SELECT c.customer_id,
     c.customer_name,
     COUNT(o.order_id) AS total_orders_placed
 FROM customers c
