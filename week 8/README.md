@@ -41,7 +41,7 @@ ecommerce-analytics-system/
 ├── scripts/
 │   ├── generate_data.py
 │   ├── clean_data.py
-│   ├── database__setup.py
+│   ├── db_setup.py
 │   ├── report_cli.py
 │   └── test_edge_cases.py
 │
@@ -56,8 +56,9 @@ ecommerce-analytics-system/
 │
 ├── ecommerce.db
 └── README.md
-└── Report Summary+Screenshots
+```
 
+---
 
 ## Dataset Generation
 
