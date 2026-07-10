@@ -257,3 +257,94 @@ JOIN products p2 ON oi2.product_id = p2.product_id
 GROUP BY oi1.product_id, oi2.product_id, p1.product_name, p2.product_name
 ORDER BY times_bought_together DESC
 LIMIT 20;
+
+
+-- 16. Rank Customers by Lifetime Value using DENSE_RANK
+WITH customer_ltv AS (
+    SELECT 
+        c.customer_id,
+        c.customer_name,
+        ROUND(SUM(oi.quantity * oi.unit_price * (1 - oi.discount_percent / 100.0)), 2) AS lifetime_value
+    FROM customers c
+    JOIN orders o ON c.customer_id = o.customer_id
+    JOIN order_items oi ON o.order_id = oi.order_id
+    GROUP BY c.customer_id, c.customer_name
+)
+SELECT 
+    customer_id,
+    customer_name,
+    lifetime_value,
+    DENSE_RANK() OVER (ORDER BY lifetime_value DESC) AS ltv_rank
+FROM customer_ltv
+ORDER BY ltv_rank ASC;
+
+
+-- 17. 7-Day Moving Average Daily Revenue using AVG() OVER
+WITH daily_revenue AS (
+    SELECT 
+        date(o.order_date) AS order_date_day,
+        SUM(oi.quantity * oi.unit_price * (1 - oi.discount_percent / 100.0)) AS daily_rev
+    FROM orders o
+    JOIN order_items oi ON o.order_id = oi.order_id
+    GROUP BY order_date_day
+)
+SELECT 
+    order_date_day AS order_date,
+    ROUND(daily_rev, 2) AS daily_revenue,
+    ROUND(SUM(daily_rev) OVER (
+        ORDER BY order_date_day 
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+    ), 2) AS running_total,
+    ROUND(AVG(daily_rev) OVER (
+        ORDER BY order_date_day 
+        ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
+    ), 2) AS seven_day_moving_avg
+FROM daily_revenue
+ORDER BY order_date;
+
+
+-- 18. RFM (Recency, Frequency, Monetary) Customer Segmentation
+WITH customer_metrics AS (
+    SELECT 
+        c.customer_id,
+        c.customer_name,
+        ROUND(julianday((SELECT MAX(order_date) FROM orders)) - julianday(MAX(o.order_date)), 1) AS recency,
+        COUNT(DISTINCT o.order_id) AS frequency,
+        ROUND(SUM(oi.quantity * oi.unit_price * (1 - oi.discount_percent / 100.0)), 2) AS monetary
+    FROM customers c
+    JOIN orders o ON c.customer_id = o.customer_id
+    JOIN order_items oi ON o.order_id = oi.order_id
+    GROUP BY c.customer_id, c.customer_name
+),
+rfm_scores AS (
+    SELECT 
+        customer_id,
+        customer_name,
+        recency,
+        frequency,
+        monetary,
+        NTILE(4) OVER (ORDER BY recency ASC) AS r_score,
+        NTILE(4) OVER (ORDER BY frequency DESC) AS f_score,
+        NTILE(4) OVER (ORDER BY monetary DESC) AS m_score
+    FROM customer_metrics
+)
+SELECT 
+    customer_id,
+    customer_name,
+    recency,
+    frequency,
+    monetary,
+    r_score,
+    f_score,
+    m_score,
+    (r_score || '-' || f_score || '-' || m_score) AS rfm_cell,
+    CASE 
+        WHEN r_score = 1 AND f_score = 1 AND m_score = 1 THEN 'Core Loyal'
+        WHEN r_score <= 2 AND f_score <= 2 THEN 'Active Engaged'
+        WHEN r_score >= 3 AND f_score <= 2 THEN 'At Risk Loyal'
+        WHEN r_score >= 3 AND f_score >= 3 THEN 'Lost Customer'
+        ELSE 'Regular'
+    END AS rfm_segment
+FROM rfm_scores
+ORDER BY monetary DESC;
+
