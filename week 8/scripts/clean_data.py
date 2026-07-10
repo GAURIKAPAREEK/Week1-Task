@@ -17,7 +17,7 @@ CUSTOMERS_CLEAN = os.path.join(CLEAN_DIR, "customers_clean.csv")
 PRODUCTS_CLEAN = os.path.join(CLEAN_DIR, "products_clean.csv")
 ORDERS_CLEAN = os.path.join(CLEAN_DIR, "orders_clean.csv")
 ORDER_ITEMS_CLEAN = os.path.join(CLEAN_DIR, "order_items_clean.csv")
-REPORT_PATH = os.path.join(CLEAN_DIR, "cleaning_report.txt")
+
 
 issues_report = {
     "null_customer_ids_removed": 0,
@@ -31,24 +31,21 @@ issues_report = {
 }
 
 def clean_orders(orders_df):
-    """
-    Fix date formats, handle NULL customer_ids, drop duplicates.
-    """
     initial_count = len(orders_df)
     
-    # 1. Drop duplicates
+    # Drop duplicates
     orders_df = orders_df.drop_duplicates(subset=["order_id"])
     dup_removed = initial_count - len(orders_df)
     issues_report["duplicate_records_removed"]["orders"] = dup_removed
 
-    # 2. Handle NULL/empty customer_ids
+    #  Handle NULL/empty customer_ids
 
     null_cust_mask = orders_df["customer_id"].isna() | (orders_df["customer_id"].astype(str).str.strip() == "")
     null_cust_count = null_cust_mask.sum()
     issues_report["null_customer_ids_removed"] = int(null_cust_count)
     orders_df = orders_df[~null_cust_mask].copy()
 
-    # 3. Fix date formats
+    #  Fix date formats
     def parse_order_date(val):
         if pd.isna(val):
             return pd.NaT
@@ -72,17 +69,12 @@ def clean_orders(orders_df):
     wrong_format_count = 0
     for orig, parsed in zip(original_dates, parsed_dates):
         if pd.notna(orig) and pd.notna(parsed):
-            # If original format didn't have space and has dash at index 2 (e.g. 25-12-2025)
+           
             orig_str = str(orig).strip()
             if len(orig_str) == 10 and orig_str[2] == '-' and orig_str[5] == '-':
                 wrong_format_count += 1
                 
-    issues_report["invalid_dates_fixed"] = wrong_format_count
-    
-    orders_df["order_date"] = parsed_dates
-
-    # Drop rows with invalid order dates
-    orders_df = orders_df.dropna(subset=["order_date"])
+    issues_report["invalid_dates_fixed"] =j"])
     
 
     reference_date = datetime(2026, 7, 9, 23, 59, 59)
@@ -97,9 +89,7 @@ def clean_orders(orders_df):
     return orders_df
 
 def clean_products(products_df):
-    """
-    Normalize product names (trim spaces, title case), handle duplicates.
-    """
+   
     initial_count = len(products_df)
     products_df = products_df.drop_duplicates(subset=["product_id"])
     dup_removed = initial_count - len(products_df)
@@ -115,10 +105,7 @@ def clean_products(products_df):
     return products_df
 
 def validate_emails(customers_df):
-    """
-    Return list of customer_ids with invalid emails.
-    An email is valid if it contains '@' and has a dot after '@'.
-    """
+    
     invalid_cust_ids = []
     for idx, row in customers_df.iterrows():
         cust_id = row["customer_id"]
@@ -142,9 +129,7 @@ def validate_emails(customers_df):
     return invalid_cust_ids
 
 def check_referential_integrity(order_items_df, orders_df, products_df):
-    """
-    Find order_items that reference non-existent orders or products.
-    """
+   
     # Check invalid orders
     valid_orders = set(orders_df["order_id"])
     orphaned_orders_mask = ~order_items_df["order_id"].isin(valid_orders)
@@ -212,7 +197,6 @@ def run_cleaning_pipeline():
     # Write report file
     with open(REPORT_PATH, "w", encoding="utf-8") as f:
         f.write("=" * 60 + "\n")
-        f.write("             DATA CLEANING PIPELINE REPORT\n")
         f.write("=" * 60 + "\n")
         f.write(f"Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
         
@@ -245,7 +229,7 @@ def run_cleaning_pipeline():
         
     print("Data cleaning pipeline execution completed successfully!")
     print(f"Cleaned datasets exported to '{CLEAN_DIR}' directory.")
-    print(f"Cleaning report saved to '{REPORT_PATH}'.")
+    
 
 if __name__ == "__main__":
     run_cleaning_pipeline()
