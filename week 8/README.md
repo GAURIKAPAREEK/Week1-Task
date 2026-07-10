@@ -1,199 +1,276 @@
 # E-Commerce Order Analytics System
 
-An end-to-end e-commerce order analytics system combining Python and SQL. This project covers data generation with intentional anomalies, automated cleaning using Pandas, database schema creation with relational integrity constraints in SQLite, complex analytical SQL queries, and a standard-library command-line reporting tool.
+## Overview
+
+This project is an end-to-end E-Commerce Order Analytics System built using Python, Pandas, SQLite, and SQL.
+
+The system generates realistic e-commerce datasets, introduces common data quality issues, cleans and validates the data, loads it into a relational database, performs business analytics using SQL, and provides reports through a command-line interface (CLI).
 
 ---
 
-## System Architecture
+## Project Workflow
 
-```
-[Raw Data Source] ──(generate_data.py)──> [data/raw/ (CSVs)]
-                                                │
-                                                ▼
-                                         (clean_data.py)
-                                                │
-                                                ▼
-[SQLite DB (ecommerce.db)] <──(db_setup.py)── [data/cleaned/ (CSVs)]
-           │
-           ├─(test_queries.py)──────────> SQL Analytics Output
-           │
-           └─(report_cli.py)────────────> CLI Performance Reports
-```
+1. Generate raw e-commerce datasets
+2. Introduce intentional data quality issues
+3. Clean and validate data using Pandas
+4. Load cleaned data into SQLite
+5. Perform SQL analytics and reporting
+6. Run cohort, retention, and customer segmentation analysis
+7. Generate reports through a CLI tool
 
 ---
 
-## Directory Structure
+## Project Structure
 
-The project conforms to the required folder structure:
-
-```
+```text
 ecommerce-analytics-system/
+│
 ├── data/
-│   ├── raw/                      # Generated raw CSV datasets with inconsistencies
+│   ├── raw/
 │   │   ├── customers.csv
 │   │   ├── products.csv
 │   │   ├── orders.csv
 │   │   └── order_items.csv
-│   └── cleaned/                  # Cleaned and validated CSV datasets
+│   │
+│   └── cleaned/
 │       ├── customers_clean.csv
 │       ├── products_clean.csv
 │       ├── orders_clean.csv
-│       ├── order_items_clean.csv
-│       └── cleaning_report.txt   # Execution report of the cleaning pipeline
+│       └── order_items_clean.csv
+│
 ├── scripts/
-│   ├── generate_data.py          # Python script to generate mock raw data
-│   ├── clean_data.py             # Pandas pipeline script for cleaning & validation
-│   ├── test_edge_cases.py        # Unit tests verifying edge case handling
-│   ├── db_setup.py               # SQLite schema deployment and data loading
-│   ├── test_queries.py           # Verification script executing all SQL analysis
-│   └── report_cli.py             # Python CLI report tool (Pure standard library)
+│   ├── generate_data.py
+│   ├── clean_data.py
+│   ├── database__setup.py
+│   ├── report_cli.py
+│   └── test_edge_cases.py
+│
 ├── sql/
-│   ├── schema.sql                # SQL DDL schemas and relational constraints
-│   ├── aggregations.sql          # Basic and Intermediate joins & aggregates
-│   ├── window_functions.sql      # Advanced window functions, CTEs & segmentation
-│   └── cohort_analysis.sql       # Complex Cohort & monthly user retention queries
+│   ├── schema.sql
+│   ├── aggregations.sql
+│   ├── window_functions.sql
+│   └── cohort_analysis.sql
+│
 ├── output/
-│   └── sample_reports/           # Saved CLI report outputs
-│       ├── monthly_report.txt
-│       └── daily_report.txt
-└── README.md                     # Documentation
-```
+│   └── sample_reports/
+│
+├── ecommerce.db
+└── README.md
+└── Report Summary+Screenshots
 
----
 
-## Getting Started
+## Dataset Generation
 
-### Prerequisites
+The dataset generation script creates four related tables:
 
-The project requires `pandas` for cleaning. Install dependencies using:
+* Customers
+* Products
+* Orders
+* Order Items
 
-```bash
-pip install pandas
-```
+Intentional inconsistencies are added to simulate real-world data problems:
 
-*Note: The CLI reporting tool, database setups, and queries run using Python's built-in `sqlite3` and `argparse` modules, meaning no external CLI styling or database libraries are needed.*
+* Duplicate records
+* Missing customer IDs
+* Invalid email formats
+* Wrong date formats
+* Future order dates
+* Orphan order items
+* Invalid discount values
+* Zero quantity records
 
----
-
-## Step-by-Step Execution Guide
-
-### Step 1: Generate Mock Datasets
-Generate 4 raw relational tables containing 500+ records each. This script intentionally injects realistic data anomalies:
-- **Orders**: 5% of records have `NULL` customer IDs, and 8% contain dates in the wrong format (`DD-MM-YYYY`).
-- **Order Items**: 3% of rows have negative quantities (simulating returns), and 10 orphaned order items with non-existent orders are added.
-- **Products**: 10% of product names have extra leading/trailing whitespace or mixed casing.
-- **Customers**: 2% of email addresses are missing the `@` or domain suffix.
+Run:
 
 ```bash
 python scripts/generate_data.py
 ```
 
-### Step 2: Run Data Cleaning & Validations
-Clean the dataset anomalies, resolve formatting issues, validate integrity, and generate an evaluation report:
-- `clean_orders()`: Standardizes dates to `YYYY-MM-DD HH:MM:SS`, filters out orders with empty/NULL customer IDs, and drops duplicate orders.
-- `clean_products()`: Trims whitespace and normalizes name strings to title case.
-- `validate_emails()`: Returns and logs a report listing all customer IDs with invalid email formats.
-- `check_referential_integrity()`: Discards orphaned items that map to non-existent orders or products.
+---
+
+## Data Cleaning
+
+The cleaning pipeline is implemented using Pandas.
+
+### Cleaning Operations
+
+* Remove duplicate records
+* Remove orders with missing customer IDs
+* Standardize date formats
+* Remove future-dated orders
+* Validate email addresses
+* Remove orphan order items
+* Remove invalid discount percentages
+* Remove zero quantity records
+
+Run:
 
 ```bash
 python scripts/clean_data.py
 ```
-This generates the cleaned tables in `data/cleaned/` and outputs a comprehensive evaluation log at `data/cleaned/cleaning_report.txt`.
 
-### Step 3: Run Edge Case Test Suite
-Run the unit test suite verifying data integrity filters and corner-case exceptions:
-- Orphaned order items mapped to non-existent orders.
-- Invalid discount percentage thresholds (`discount_percent` outside 0–100%).
-- Order line items with zero quantities.
-- Orders placed in future dates.
+After execution, cleaned files are generated inside:
 
-```bash
-python scripts/test_edge_cases.py
+```text
+data/cleaned/
 ```
 
-### Step 4: Deploy SQLite Database
-Create the database tables matching the schema definitions in `sql/schema.sql` (defining primary keys, foreign key relationships, check constraints), and load the cleaned records into `ecommerce.db`:
+A cleaning report is also generated:
+
+```text
+data/cleaned/cleaning_report.txt
+```
+
+---
+
+## Database Setup
+
+SQLite is used as the database.
+
+The schema includes:
+
+* Primary Keys
+* Foreign Keys
+* NOT NULL Constraints
+* CHECK Constraints
+
+Run:
 
 ```bash
 python scripts/db_setup.py
 ```
 
-### Step 5: Execute SQL Analysis Queries
-Evaluate advanced SQL metrics, window functions, user categorization, and cohort statistics directly on the database:
+This script:
 
-```bash
-python scripts/test_queries.py
-```
-This script runs the queries from all three SQL script files:
-- **`sql/aggregations.sql`**: Categories net revenues, top 10 customers, trailing 12-month order volume, undelivered customers, net negative return products, and category-level return rates.
-- **`sql/window_functions.sql`**: Regional daily revenue running totals, product ranking inside categories, inter-order lag analysis, multi-tiered customer spend counts, NTILE customer segmentation, YoY monthly growth metrics, category shift analysis, and products frequently bought together.
-- **`sql/cohort_analysis.sql`**: Standard monthly cohort registration size and customer retention rates for months 0, 1, 2, and 3.
+* Creates all tables
+* Loads cleaned CSV files
+* Verifies row counts
+* Checks referential integrity
 
 ---
 
-## Command-Line Reporting Tool
+## SQL Analytics
 
-The command-line tool `scripts/report_cli.py` lets you generate summaries directly from the command line.
+The project includes multiple analytical SQL queries.
 
-### CLI Syntax
+### Aggregation Analysis
+
+* Revenue by category
+* Top customers by spending
+* Monthly order trends
+* Return analysis
+* Customer order behavior
+
+### Window Functions & CTEs
+
+* Customer ranking by revenue
+* Running totals
+* Moving averages
+* Revenue growth calculations
+* Customer segmentation
+
+### Cohort & Retention Analysis
+
+* Customer cohorts by first purchase month
+* Monthly retention rates
+* Repeat customer analysis
+
+SQL files are stored in:
+
+```text
+sql/
+```
+
+---
+
+## Edge Case Testing
+
+Unit tests are included to verify important data quality scenarios.
+
+Covered cases:
+
+* Orphan order items
+* Invalid discount percentages
+* Zero quantity records
+* Future order dates
+
+Run:
 
 ```bash
-python scripts/report_cli.py [--report {daily,weekly,monthly}] [--start-date YYYY-MM-DD] [--end-date YYYY-MM-DD]
+python scripts/test_edge_cases.py
 ```
 
-### Example Commands
+---
 
-1. **Default Monthly Report** (Displays last 30 days of the database range with month-over-month comparisons):
-   ```bash
-   python scripts/report_cli.py
-   ```
-2. **Weekly Breakdown**:
-   ```bash
-   python scripts/report_cli.py --report weekly
-   ```
-3. **Custom Date Range with Daily breakdown**:
-   ```bash
-   python scripts/report_cli.py --report daily --start-date 2026-06-01 --end-date 2026-06-05
-   ```
+## CLI Reporting Tool
 
-### Sample CLI Report Output
+The project includes a command-line reporting tool that reads data directly from SQLite and generates reports.
 
-Stored in `output/sample_reports/`, here is an example execution:
+### Usage
 
+```bash
+python scripts/report_cli.py
 ```
-======================================================================
-             E-COMMERCE ORDER ANALYTICS SUMMARY REPORT
-             Report Type: DAILY
-             Current Period:  2026-06-01 to 2026-06-05
-             Previous Period: 2026-05-27 to 2026-05-31
-======================================================================
 
-[KEY PERFORMANCE METRICS]
------------------+----------------+-----------------+---------
-Metric           | Current Period | Previous Period | % Change
------------------+----------------+-----------------+---------
-Total Orders     | 21             | 27              | -22.22% 
-Net Revenue      | 68,851.22      | 84,994.10       | -18.99% 
-Unique Customers | 20             | 26              | -23.08% 
------------------+----------------+-----------------+---------
+### Weekly Report
 
-[TOP 3 PRODUCTS BY REVENUE]
--------------+----------+------------+--------
-Product Name | Category | Units Sold | Revenue
--------------+----------+------------+--------
-Sneakers 455 | Clothing | 13         | 6,614.95
-Sneakers 888 | Clothing | 8          | 4,789.90
-Rug 864      | Home     | 7          | 4,491.55
--------------+----------+------------+--------
-
-[PERIODIC BREAKDOWN (DAILY)]
------------+--------+----------+-----------------
-Period     | Orders | Revenue  | Unique Customers
------------+--------+----------+-----------------
-2026-06-01 | 6      | 20,515.93 | 6               
-2026-06-02 | 4      | 14,901.69 | 4               
-2026-06-03 | 5      | 12,734.94 | 5               
-2026-06-04 | 3      | 12,593.76 | 3               
-2026-06-05 | 3      | 8,104.89 | 3               
------------+--------+----------+-----------------
+```bash
+python scripts/report_cli.py --report weekly
 ```
+
+### Daily Report
+
+```bash
+python scripts/report_cli.py --report daily
+```
+
+### Custom Date Range
+
+```bash
+python scripts/report_cli.py --report daily --start-date 2026-06-01 --end-date 2026-06-05
+```
+
+---
+
+## Example Report Metrics
+
+The CLI tool displays:
+
+* Total Orders
+* Revenue
+* Unique Customers
+* Top Products
+* Daily / Weekly / Monthly Breakdown
+
+---
+
+## Technologies Used
+
+* Python
+* Pandas
+* SQLite
+* SQL
+* argparse
+* unittest
+
+---
+
+## Key Concepts Demonstrated
+
+* Data Generation
+* Data Cleaning
+* Data Validation
+* Referential Integrity
+* SQL Joins
+* Aggregations
+* Window Functions
+* CTEs
+* Cohort Analysis
+* Retention Analysis
+* Customer Segmentation
+* CLI Development
+
+---
+
+## Conclusion
+
+This project demonstrates a complete data analytics workflow starting from raw data generation to business reporting. It combines Python-based data engineering tasks with SQL analytics and provides a practical example of handling real-world e-commerce data.
